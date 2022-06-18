@@ -9,6 +9,7 @@ class CheckinPage extends StatefulWidget {
 
 class _CheckinPageState extends State<CheckinPage> {
   bool check = false;
+  String url = 'assets/fingerprint.png';
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +35,7 @@ class _CheckinPageState extends State<CheckinPage> {
       ),
       body: SafeArea(
           child: Center(
-        child: Expanded(
-            child: Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
@@ -44,17 +44,14 @@ class _CheckinPageState extends State<CheckinPage> {
                   onTap: () {
                     setState(() {
                       check = true;
+                      url = 'assets/checked.jpeg';
                     });
                   },
-                  child: Image(
-                      image: check
-                          ? AssetImage('assets/checked.jpeg')
-                          : AssetImage('assets/fingerprint.png'))),
+                  child: Image.asset(url)),
             ),
-
-            //Text('CLICK TO MARK ATTENDANCE AT YOUR LOCATION')
+            check ? Text('Marked') : Text('Tap to mark attendance')
           ],
-        )),
+        ),
       )),
     );
   }
