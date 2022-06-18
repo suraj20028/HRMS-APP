@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'Notifications.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +25,10 @@ class HomePage extends StatelessWidget {
         elevation: 2,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const notify()));
+              },
               icon: Icon(
                 Icons.notifications,
                 color: Theme.of(context).iconTheme.color,
