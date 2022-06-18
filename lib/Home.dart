@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrms/checkin.dart';
+import 'package:hrms/tile.dart';
 import 'Notifications.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,17 +11,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFAFAFA),
+        titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
+        iconTheme: Theme.of(context).appBarTheme.iconTheme,
         automaticallyImplyLeading: false,
         title: Text(
           'DASHBOARD',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Roboto Condensed',
-            color: Colors.black,
-            fontSize: 25,
-            fontWeight: FontWeight.w800,
-          ),
         ),
         centerTitle: true,
         elevation: 2,
@@ -31,7 +27,6 @@ class HomePage extends StatelessWidget {
               },
               icon: Icon(
                 Icons.notifications,
-                color: Theme.of(context).iconTheme.color,
               ))
         ],
       ),
@@ -69,65 +64,23 @@ class HomePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Expanded(
-                      child: Card(
-                        child: SizedBox(
-                          height: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [Text('LEAVES LEFT :'), Text('5')],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Card(
-                        child: SizedBox(
-                          height: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text('PAYSLIP:'),
-                              Text('10/10/2022'),
-                              Text('DOWNLOAD')
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    Tile(title: 'LEAVES LEFT', description: '5'),
+                    Tile(title: 'PAY SLIP', description: '10/10/2022'),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                      child: Card(
-                        child: SizedBox(
-                          height: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text('DAILY CHECKIN'),
-                              Text('(PUNCHING)')
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: InkWell(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const CheckinPage())),
+                          child: Tile(
+                              title: 'DAILY CHECKIN',
+                              description: 'Click Here')),
                     ),
-                    Expanded(
-                      child: Card(
-                        child: SizedBox(
-                          height: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [Text('OVERTIME'), Text('3HRS')],
-                          ),
-                        ),
-                      ),
-                    ),
+                    Tile(title: 'OVERTIME', description: '3HRS'),
                   ],
                 ),
               ],

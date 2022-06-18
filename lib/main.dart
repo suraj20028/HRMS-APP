@@ -30,8 +30,15 @@ class _HomeState extends State<Home> {
             bodyText1: TextStyle(color: Colors.black),
             subtitle1: TextStyle(color: Color(0xFF4B39EF)),
           ),
-          appBarTheme:
-              AppBarTheme(backgroundColor: Color.fromARGB(255, 0, 91, 195))),
+          appBarTheme: AppBarTheme(
+              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+              iconTheme: IconThemeData(color: Colors.white),
+              titleTextStyle: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Roboto Condensed',
+                fontSize: 25,
+                fontWeight: FontWeight.w800,
+              ))),
       debugShowCheckedModeBanner: false,
     );
   }

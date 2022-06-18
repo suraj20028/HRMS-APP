@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/main.dart';
-import 'Home.dart';
 
 class notify extends StatefulWidget {
   const notify({Key? key}) : super(key: key);
@@ -15,28 +13,21 @@ class _notifyState extends State<notify> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFAFAFA),
+        titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,
+        iconTheme: Theme.of(context).appBarTheme.iconTheme,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         automaticallyImplyLeading: false,
         title: Text(
           'NOTIFICATIONS',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Roboto Condensed',
-            color: Colors.black,
-            fontSize: 25,
-            fontWeight: FontWeight.w800,
-          ),
         ),
         centerTitle: true,
         elevation: 2,
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Home()));
+            Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ),
