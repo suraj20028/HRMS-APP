@@ -70,14 +70,18 @@ class HomePage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: InkWell(
+                      child: GestureDetector(
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const CheckinPage())),
-                          child: Tile(
-                              title: 'DAILY CHECKIN',
-                              description: 'Click Here')),
+                          child: Row(
+                            children: [
+                              Tile(
+                                  title: 'DAILY CHECKIN',
+                                  description: 'Click Here'),
+                            ],
+                          )),
                     ),
                     Tile(title: 'OVERTIME', description: '3HRS'),
                   ],

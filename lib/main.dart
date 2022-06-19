@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
               fontWeight: FontWeight.bold,
             ),
             subtitle2: TextStyle(
-              fontFamily: 'Lexend Deca',
+              //fontFamily: 'Lexend Deca',
               color: Color(0xFF95A1AC),
               fontSize: 20,
               fontWeight: FontWeight.normal,
