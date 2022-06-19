@@ -29,7 +29,17 @@ class _HomeState extends State<Home> {
               fontSize: 22,
             ),
             bodyText1: TextStyle(color: Colors.black),
-            subtitle1: TextStyle(color: Color(0xFF4B39EF)),
+            subtitle1: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            subtitle2: TextStyle(
+              fontFamily: 'Lexend Deca',
+              color: Color(0xFF95A1AC),
+              fontSize: 20,
+              fontWeight: FontWeight.normal,
+            ),
           ),
           appBarTheme: AppBarTheme(
               backgroundColor: Color.fromARGB(255, 0, 0, 0),

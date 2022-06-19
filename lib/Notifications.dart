@@ -46,11 +46,7 @@ class _notifyState extends State<notify> {
                   children: [
                     Text(
                       'PAYSLIPS',
-                      style: TextStyle(
-                        color: Color(0xFF4B39EF),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -61,7 +57,7 @@ class _notifyState extends State<notify> {
                       margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
                     ),
                     Text(
-                      'Charity 5K Race for a Cure',
+                      'ISSUAL OF PAYSLIPS',
                       style: TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF090F13),
@@ -69,7 +65,7 @@ class _notifyState extends State<notify> {
                       ),
                     ),
                     Text(
-                      'Short description goes here and can be more\nthan one line. Two lines is the best length… ',
+                      'This month updates on payslip has been issued ',
                       style: TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF95A1AC),
@@ -84,17 +80,17 @@ class _notifyState extends State<notify> {
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
                           child: Icon(
                             Icons.schedule,
-                            color: Color(0xFF4B39EF),
+                            color: Colors.black,
                             size: 20,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                           child: Text(
-                            '${time[index]}',
+                            time[index],
                             style: TextStyle(
                               fontFamily: 'Lexend Deca',
-                              color: Color(0xFF4B39EF),
+                              color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
