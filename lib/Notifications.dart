@@ -9,6 +9,9 @@ class notify extends StatefulWidget {
 
 class _notifyState extends State<notify> {
   final List<String> time = <String>['8:00am', '12:00pm', '1:00pm'];
+  final List<String> head = <String>['PAYSLIP', 'ATTENDANCE', 'MEET'];
+  final List<String> det = <String>['This month updates on payslip has been issued ',
+    'Mark your attendance before it gets timed out', 'Please join the meeting at 4:00 PM'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +48,7 @@ class _notifyState extends State<notify> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'PAYSLIPS',
+                      head[index],
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                     Container(
@@ -57,15 +60,7 @@ class _notifyState extends State<notify> {
                       margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
                     ),
                     Text(
-                      'ISSUAL OF PAYSLIPS',
-                      style: TextStyle(
-                        fontFamily: 'Lexend Deca',
-                        color: Color(0xFF090F13),
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      'This month updates on payslip has been issued ',
+                      det[index],
                       style: TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF95A1AC),
