@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hrms/checkin.dart';
@@ -10,21 +11,40 @@ import 'package:http/http.dart' as http;
 
 import 'apiCall.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  Future<List<Employee>> getEmployeeList() async {
-    String basicAuth = 'Basic ' + base64Encode(utf8.encode('rakhulant:1234'));
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late Future<Employee> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
+  Future<Employee> fetchAlbum() async {
     final response = await http.get(
         Uri.parse(
-            'https://secret-island-08960.herokuapp.com/employees/hrms143/?format=json'),
-        headers: <String, String>{'authorization': basicAuth});
-    final items = json.decode(response.body).cast<Map<String, dynamic>>();
-    List<Employee> employees = items.map<Employee>((json) {
-      return Employee.fromJson(json);
-    }).toList();
+            'https://secret-island-08960.herokuapp.com/employees/hrms100/?format=json'),
+        headers: {
+          HttpHeaders.authorizationHeader: 'Basic cmFraHVsYW50OjEyMzQ=',
+        });
 
-    return employees;
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return Employee.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
   }
 
   @override
@@ -50,10 +70,10 @@ class HomePage extends StatelessWidget {
               ))
         ],
       ),
-      body: FutureBuilder(
-        future: getEmployeeList(),
+      body: FutureBuilder<Employee>(
+        future: futureAlbum,
         builder: (context, snapshot) {
-          var dat = jsonDecode(jsonEncode(snapshot.data.toString()));
+          print(snapshot.data?.eadd);
           if (snapshot.hasData) {
             return SafeArea(
               child: Column(
@@ -74,7 +94,7 @@ class HomePage extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text('Name:Sai Ganesh'),
-                            Text("address:${dat[dat.indexOf('address')]}"),
+                            Text("address:${snapshot.data!.eadd}"),
                             Text('phone:1234567890'),
                             Text('designation:employee'),
                           ],
@@ -89,8 +109,12 @@ class HomePage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Tile(title: 'LEAVES LEFT', description: '5'),
-                          Tile(title: 'PAY SLIP', description: '10/10/2022'),
+                          Tile(
+                              title: 'LEAVES LEFT',
+                              description: snapshot.data!.eleft.toString()),
+                          Tile(
+                              title: 'PAY SLIP',
+                              description: snapshot.data!.epdate.toString()),
                         ],
                       ),
                       Row(
