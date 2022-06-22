@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hrms/employee.dart';
-import 'package:hrms/main.dart';
 import 'Home.dart';
 
 class Employee extends StatelessWidget {
