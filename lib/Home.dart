@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'dart:convert' as convert;
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,6 +9,7 @@ import 'package:hrms/tile.dart';
 import 'Notifications.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
+
 
 import 'apiCall.dart';
 
@@ -31,17 +33,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Employee> fetchAlbum() async {
-    String basicAuth =
-        'Basic ${base64Encode(utf8.encode('${widget.eid}:${widget.pass}'))}';
 
-    print(basicAuth);
+    Map<String, dynamic> jsonMap = {
+    "login": "hradmin@gmail.com",
+    "password": "hradmin@123"
+  };
 
-    final response = await http.get(
-        Uri.parse(
-            'https://secret-island-08960.herokuapp.com/employees/${widget.eid}/?format=json'),
-        headers: {
-          HttpHeaders.authorizationHeader: basicAuth,
-        });
+    final response = await http.post(
+        Uri.parse('https://hrmsprime.com/app_list_employees'),
+        body: convert.jsonEncode(jsonMap),
+        headers: {"Content-type": "application/json"});
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -102,11 +103,11 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Employeeid:${extract(snapshot.data!.url)}',
+                              'Employeeid:${snapshot.data!.id}',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text('Name:${snapshot.data!.ename}'),
-                            Text("address:${snapshot.data!.eadd}"),
+                            Text('Name:${snapshot.data!.name}'),
+                            Text("address:${snapshot.data!.workEmail}"),
                             //Text('phone:1234567890'),
                             Text('designation:employee'),
                           ],
