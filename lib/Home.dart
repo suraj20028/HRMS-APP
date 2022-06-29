@@ -10,7 +10,6 @@ import 'Notifications.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 
-
 import 'apiCall.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,11 +32,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Employee> fetchAlbum() async {
-
     Map<String, dynamic> jsonMap = {
-    "login": "hradmin@gmail.com",
-    "password": "hradmin@123"
-  };
+      "login": widget.eid,
+      "password": widget.pass
+    };
 
     final response = await http.post(
         Uri.parse('https://hrmsprime.com/app_list_employees'),
@@ -47,12 +45,21 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(response.body);
-      return Employee.fromJson(jsonDecode(response.body));
+      //print(convert.jsonDecode(response.body)['result']['employees_list'][0]);
+      //print(jsonDecode(response.body)['result']['employee_list']);
+      if (jsonDecode(response.body)['result']['employee_list'].toString() ==
+          null) {
+        print(jsonDecode(response.body)['result']['employee_list']);
+        throw Exception('Failed to load Employee details');
+      }
+      var emp = Employee.fromJson(
+          jsonDecode(response.body)['result']['employees_list'][0]);
+
+      return emp;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load Employee details');
     }
   }
 
@@ -86,7 +93,6 @@ class _HomePageState extends State<HomePage> {
       body: FutureBuilder<Employee>(
         future: futureAlbum,
         builder: (context, snapshot) {
-          print(snapshot.data?.eadd);
           if (snapshot.hasData) {
             return SafeArea(
               child: Column(
@@ -108,8 +114,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Text('Name:${snapshot.data!.name}'),
                             Text("address:${snapshot.data!.workEmail}"),
-                            //Text('phone:1234567890'),
-                            Text('designation:employee'),
+                            Text('phone:${snapshot.data!.workMobile}'),
+                            Text('designation:${snapshot.data!.jobTitle}'),
                           ],
                         ),
                       ),
@@ -122,12 +128,10 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Row(
                         children: [
+                          Tile(title: 'ID', description: snapshot.data!.idNo),
                           Tile(
-                              title: 'LEAVES LEFT',
-                              description: snapshot.data!.eleft.toString()),
-                          Tile(
-                              title: 'PAY SLIP',
-                              description: snapshot.data!.epdate.toString()),
+                              title: 'Joined ',
+                              description: snapshot.data!.joinDate),
                         ],
                       ),
                       Row(
@@ -147,7 +151,9 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 )),
                           ),
-                          Tile(title: 'OVERTIME', description: '3HRS'),
+                          Tile(
+                              title: 'DEPT NAME',
+                              description: snapshot.data!.deptName),
                         ],
                       ),
                     ],
