@@ -12,7 +12,10 @@ import 'package:http/http.dart' as http;
 import 'apiCall.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String eid;
+  final String pass;
+  const HomePage({Key? key, required this.eid, required this.pass})
+      : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,11 +31,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Employee> fetchAlbum() async {
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('${widget.eid}:${widget.pass}'))}';
+
+    print(basicAuth);
+
     final response = await http.get(
         Uri.parse(
-            'https://secret-island-08960.herokuapp.com/employees/hrms100/?format=json'),
+            'https://secret-island-08960.herokuapp.com/employees/${widget.eid}/?format=json'),
         headers: {
-          HttpHeaders.authorizationHeader: 'Basic cmFraHVsYW50OjEyMzQ=',
+          HttpHeaders.authorizationHeader: basicAuth,
         });
 
     if (response.statusCode == 200) {
@@ -45,6 +53,10 @@ class _HomePageState extends State<HomePage> {
       // then throw an exception.
       throw Exception('Failed to load album');
     }
+  }
+
+  String extract(String url) {
+    return url.substring(52, 59);
   }
 
   @override
@@ -90,12 +102,12 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Employeeid:10928',
+                              'Employeeid:${extract(snapshot.data!.url)}',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text('Name:Sai Ganesh'),
+                            Text('Name:${snapshot.data!.ename}'),
                             Text("address:${snapshot.data!.eadd}"),
-                            Text('phone:1234567890'),
+                            //Text('phone:1234567890'),
                             Text('designation:employee'),
                           ],
                         ),

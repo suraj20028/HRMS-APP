@@ -4,6 +4,9 @@ import 'Home.dart';
 class Employee extends StatelessWidget {
   Employee({Key? key}) : super(key: key);
 
+  final eidc = TextEditingController();
+  final epass = TextEditingController();
+
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     onPrimary: Colors.black87,
     primary: Color.fromARGB(255, 45, 105, 126),
@@ -52,6 +55,7 @@ class Employee extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: eidc,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -62,6 +66,8 @@ class Employee extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                obscureText: true,
+                controller: epass,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -78,7 +84,10 @@ class Employee extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => HomePage(
+                        eid: eidc.text,
+                        pass: epass.text,
+                      ),
                     ),
                   );
                 },
