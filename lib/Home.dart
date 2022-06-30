@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Employee> fetchAlbum() async {
+
     Map<String, dynamic> jsonMap = {
       "login": widget.eid,
       "password": widget.pass
@@ -43,19 +44,31 @@ class _HomePageState extends State<HomePage> {
         headers: {"Content-type": "application/json"});
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      //print(convert.jsonDecode(response.body)['result']['employees_list'][0]);
-      //print(jsonDecode(response.body)['result']['employee_list']);
-      if (jsonDecode(response.body)['result']['employee_list'].toString() ==
-          null) {
-        print(jsonDecode(response.body)['result']['employee_list']);
+      
+      bool flag = false;
+
+     
+      if(jsonDecode(response.body)['result']['error']=="Login/Password is not set" || jsonDecode(response.body)['result']['error']=="Access denied!"){
+          flag = true;
+      };
+      
+      if (flag) {
+        //print(jsonDecode(response.body)['result']['employee_list']);
         throw Exception('Failed to load Employee details');
       }
+      
+
       var emp = Employee.fromJson(
           jsonDecode(response.body)['result']['employees_list'][0]);
 
+      if(emp == null){
+        throw Exception('Failed to load Employee details');
+      }
+        
       return emp;
+
+      
+     
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

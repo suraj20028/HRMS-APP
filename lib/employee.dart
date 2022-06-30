@@ -9,7 +9,7 @@ class Employee extends StatelessWidget {
 
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     onPrimary: Colors.black87,
-    primary: Color.fromARGB(255, 45, 105, 126),
+    primary: Color.fromARGB(255, 242, 124, 34),
     minimumSize: Size(300, 60),
     padding: EdgeInsets.all(25),
     shape: const RoundedRectangleBorder(
@@ -57,10 +57,10 @@ class Employee extends StatelessWidget {
               child: TextField(
                 controller: eidc,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
+
+                    
                     labelText: 'Employee ID',
-                    hintText: 'Enter Your Employee id'),
+                    ),
               ),
             ),
             Padding(
@@ -69,10 +69,9 @@ class Employee extends StatelessWidget {
                 obscureText: true,
                 controller: epass,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
+                  
                   labelText: 'Password',
-                  hintText: 'Enter Your password',
+                  
                 ),
               ),
             ),

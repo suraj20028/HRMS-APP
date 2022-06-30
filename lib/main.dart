@@ -20,12 +20,13 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       home: LoginPage(),
       theme: ThemeData(
-          iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Color.fromARGB(255, 50, 53, 57),
+          iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
+          backgroundColor: Color.fromARGB(255, 236, 236, 236),
+          primarySwatch: Colors.orange,
           brightness: Brightness.light,
           textTheme: TextTheme(
             bodyText2: TextStyle(
-              color: Colors.black,
+              color: Color.fromARGB(255, 0, 0, 0),
               fontSize: 22,
             ),
             bodyText1: TextStyle(color: Colors.black),
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           appBarTheme: AppBarTheme(
-              backgroundColor: Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: Color.fromARGB(255,242 ,124, 34),
               iconTheme: IconThemeData(color: Colors.white),
               titleTextStyle: TextStyle(
                 color: Colors.white,
