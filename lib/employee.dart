@@ -52,6 +52,20 @@ class Employee extends StatelessWidget {
                   height: 150,
                   child: Image.asset('assets/employee2.jpg')),
             ),
+            Padding(padding: const EdgeInsets.all(20)),
+            Padding(
+              padding: const EdgeInsets.all(1),
+             
+              child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(' Login',style: TextStyle(
+                  fontSize: 20,
+                  
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
+                ),),
+            ),),
+            
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -60,6 +74,17 @@ class Employee extends StatelessWidget {
 
                     
                     labelText: 'Employee ID',
+                    suffixIcon : CircleAvatar(
+                      backgroundColor: Color.fromARGB(255, 250, 250, 250),
+                       child : CircleAvatar(
+                        backgroundColor: Color(0xffE6E6E6),
+                        radius: 2,
+                        child: Icon(
+                          Icons.person,
+                          color: Color(0xffCCCCCC),
+                        ),
+                      ),
+                    ),
                     ),
               ),
             ),
@@ -67,14 +92,56 @@ class Employee extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 obscureText: true,
+              
                 controller: epass,
                 decoration: InputDecoration(
                   
                   labelText: 'Password',
+                  suffixIcon : CircleAvatar(
+                      backgroundColor: Color.fromARGB(255, 250, 250, 250),
+                       child : CircleAvatar(
+                        backgroundColor: Color(0xffE6E6E6),
+                        radius: 2,
+                        child: Icon(
+                          Icons.lock,
+                          color: Color(0xffCCCCCC),
+                        ),
+                      ),
                   
                 ),
               ),
             ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2),
+              child:Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: (() {
+                  
+                      }),
+                      child: Text('  Forgot password?',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 13,
+                      )),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      
+                    },
+                    child: Text('Change User? ',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 13,
+                    )),
+                  )
+                ],
+              )
+            ),
+            Padding(padding: const EdgeInsets.all(12)),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
@@ -90,8 +157,12 @@ class Employee extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('Login'),
+                child: Text('Login',
+                style: TextStyle(
+                color:Colors.white,
+                ),
               ),
+            ),
             ),
           ],
         ),
