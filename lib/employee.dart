@@ -39,18 +39,19 @@ class Employee extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
+          reverse: true,
           child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Container(
                   width: 200,
-                  height: 150,
-                  child: Image.asset('assets/employee2.jpg')),
+                  height: 175,
+                  child: Image.asset('assets/icon-removebg-preview.png')),
             ),
             Padding(padding: const EdgeInsets.all(20)),
             Padding(
