@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/login.dart';
+import 'package:hrms/profile.dart';
 
 import 'Home.dart';
 
@@ -50,7 +51,19 @@ class _HomeState extends State<Home> {
                 fontFamily: 'Roboto Condensed',
                 fontSize: 25,
                 fontWeight: FontWeight.w800,
-              ))),
+              ))
+            ,
+            buttonTheme: ButtonThemeData(
+                  
+              buttonColor: Color.fromARGB(255, 242, 124, 34),
+               
+              padding: EdgeInsets.all(25),
+              shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(2)),
+    ),
+            )  
+              ),
+          
       debugShowCheckedModeBanner: false,
     );
   }

@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hrms/checkin.dart';
+import 'package:hrms/profile.dart';
 import 'package:hrms/tile.dart';
 import 'Notifications.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -100,6 +101,14 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Icon(
                 Icons.notifications,
+              )),
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Profile()));
+              },
+              icon: Icon(
+                Icons.face,
               ))
         ],
       ),
