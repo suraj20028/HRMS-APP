@@ -36,10 +36,10 @@ class Profile extends StatelessWidget {
               children: <Widget>[
                 CircleAvatar(
                   radius: 60,
-                  backgroundImage: AssetImage('assets/icon.png'),
+                  backgroundImage: AssetImage('assets/pic.png'),
                 ),
                 Text(
-                  'Srinivaaaaaasa',
+                  'Rahul Raj',
                   style: TextStyle(
                     fontFamily: 'SourceSansPro',
                     fontWeight:FontWeight.bold ,
