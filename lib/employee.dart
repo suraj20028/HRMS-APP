@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/reset.dart';
 import 'Home.dart';
+import 'forgot.dart';
 
 class Employee extends StatelessWidget {
   Employee({Key? key}) : super(key: key);
@@ -120,7 +122,7 @@ class Employee extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: (() {
-                  
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Forgot(),),);
                       }),
                       child: Text('  Forgot password?',
                       style: TextStyle(
@@ -129,16 +131,7 @@ class Employee extends StatelessWidget {
                       )),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      
-                    },
-                    child: Text('Change User? ',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 13,
-                    )),
-                  )
+                  
                 ],
               )
             ),

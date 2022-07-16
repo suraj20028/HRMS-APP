@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:hrms/contacts.dart';
+import 'package:hrms/personal.dart';
+import 'package:hrms/work.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -75,46 +78,33 @@ class Profile extends StatelessWidget {
                       child: Icon(Icons.face_outlined,)),
                     title: Text('personal'),
                     trailing: Icon(Icons.navigate_next),
+                    onTap: (() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Personal(),),);
+                      }),
                 ),
                 ListTile(
                     leading: Container(
                       padding: EdgeInsets.all(10),
                       decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
                       child: Icon(Icons.work,)),
-                    title: Text('Work'),
+                    title: Text('Work details'),
                     trailing: Icon(Icons.navigate_next),
+                    onTap: (() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Work(),),);
+                      }),
                 ),
                 ListTile(
                     leading: Container(
                       padding: EdgeInsets.all(10),
                       decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.privacy_tip_outlined,)),
-                    title: Text('privacy & terms'),
+                      child: Icon(Icons.headphones,)),
+                    title: Text('Contact details'),
                     trailing: Icon(Icons.navigate_next),
+                    onTap: (() {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Contact(),),);
+                      }),
                 ),
-                ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.lock,)),
-                    title: Text('Security'),
-                    trailing: Icon(Icons.navigate_next),
-                ),
-                Padding(padding: EdgeInsets.all(5),),
-                Divider(
-                  thickness: 2,
-                  indent: 10,
-                  endIndent: 10,
-                ),
-                Padding(padding: EdgeInsets.all(5),),
-                ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.headphones)),
-                    title: Text('Support'),
-                    trailing: Icon(Icons.navigate_next),
-                ),
+                
                 Padding(padding: EdgeInsets.all(5),),
                 Divider(
                   thickness: 2,

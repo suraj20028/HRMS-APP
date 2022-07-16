@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hrms/checkin.dart';
+import 'package:hrms/payslip.dart';
 import 'package:hrms/profile.dart';
 import 'package:hrms/tile.dart';
 import 'Notifications.dart';
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const notify()));
+                    MaterialPageRoute(builder: (context) => const payslip()));
               },
               icon: Icon(
                 Icons.notifications,

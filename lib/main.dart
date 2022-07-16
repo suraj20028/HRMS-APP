@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/login.dart';
 import 'package:hrms/profile.dart';
+import 'package:hrms/employee.dart';
 
 import 'Home.dart';
 
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      home: Employee(),
       theme: ThemeData(
           iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
           backgroundColor: Color.fromARGB(255, 236, 236, 236),
