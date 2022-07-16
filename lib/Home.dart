@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hrms/checkin.dart';
+import 'package:hrms/dashboard.dart';
 import 'package:hrms/payslip.dart';
 import 'package:hrms/profile.dart';
 import 'package:hrms/tile.dart';
@@ -34,7 +35,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Employee> fetchAlbum() async {
-
     Map<String, dynamic> jsonMap = {
       "login": widget.eid,
       "password": widget.pass
@@ -46,31 +46,28 @@ class _HomePageState extends State<HomePage> {
         headers: {"Content-type": "application/json"});
 
     if (response.statusCode == 200) {
-      
       bool flag = false;
 
-     
-      if(jsonDecode(response.body)['result']['error']=="Login/Password is not set" || jsonDecode(response.body)['result']['error']=="Access denied!"){
-          flag = true;
-      };
-      
+      if (jsonDecode(response.body)['result']['error'] ==
+              "Login/Password is not set" ||
+          jsonDecode(response.body)['result']['error'] == "Access denied!") {
+        flag = true;
+      }
+      ;
+
       if (flag) {
         //print(jsonDecode(response.body)['result']['employee_list']);
         throw Exception('Failed to load Employee details');
       }
-      
 
       var emp = Employee.fromJson(
           jsonDecode(response.body)['result']['employees_list'][0]);
 
-      if(emp == null){
+      if (emp == null) {
         throw Exception('Failed to load Employee details');
       }
-        
-      return emp;
 
-      
-     
+      return emp;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -103,7 +100,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(
                 Icons.notifications,
               )),
-            IconButton(
+          IconButton(
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Profile()));
@@ -174,9 +171,34 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 )),
                           ),
-                          Tile(
-                              title: 'DEPT NAME',
-                              description: snapshot.data!.deptName),
+                          Expanded(
+                            child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CheckinPage())),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const dashboard())),
+                                          child: Row(
+                                            children: [
+                                              Tile(
+                                                  title: 'DEPT NAME',
+                                                  description:
+                                                      snapshot.data!.deptName),
+                                            ],
+                                          )),
+                                    ),
+                                  ],
+                                )),
+                          ),
                         ],
                       ),
                     ],

@@ -3,10 +3,16 @@ import 'package:hrms/reset.dart';
 import 'Home.dart';
 import 'forgot.dart';
 
-class Employee extends StatelessWidget {
+class Employee extends StatefulWidget {
   Employee({Key? key}) : super(key: key);
 
+  @override
+  State<Employee> createState() => _EmployeeState();
+}
+
+class _EmployeeState extends State<Employee> {
   final eidc = TextEditingController();
+
   final epass = TextEditingController();
 
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
@@ -44,123 +50,123 @@ class Employee extends StatelessWidget {
       body: SingleChildScrollView(
           reverse: true,
           child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                  width: 200,
-                  height: 175,
-                  child: Image.asset('assets/icon-removebg-preview.png')),
-            ),
-            Padding(padding: const EdgeInsets.all(20)),
-            Padding(
-              padding: const EdgeInsets.all(1),
-             
-              child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(' Login',style: TextStyle(
-                  fontSize: 20,
-                  
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
-                ),),
-            ),),
-            
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: eidc,
-                decoration: InputDecoration(
-
-                    
-                    labelText: 'Employee ID',
-                    suffixIcon : CircleAvatar(
-                      backgroundColor: Color.fromARGB(255, 250, 250, 250),
-                       child : CircleAvatar(
-                        backgroundColor: Color(0xffE6E6E6),
-                        radius: 2,
-                        child: Icon(
-                          Icons.person,
-                          color: Color(0xffCCCCCC),
-                        ),
-                      ),
-                    ),
-                    ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                obscureText: true,
-              
-                controller: epass,
-                decoration: InputDecoration(
-                  
-                  labelText: 'Password',
-                  suffixIcon : CircleAvatar(
-                      backgroundColor: Color.fromARGB(255, 250, 250, 250),
-                       child : CircleAvatar(
-                        backgroundColor: Color(0xffE6E6E6),
-                        radius: 2,
-                        child: Icon(
-                          Icons.lock,
-                          color: Color(0xffCCCCCC),
-                        ),
-                      ),
-                  
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                      width: 200,
+                      height: 175,
+                      child: Image.asset('assets/icon-removebg-preview.png')),
                 ),
-              ),
-            ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2),
-              child:Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: (() {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Forgot(),),);
-                      }),
-                      child: Text('  Forgot password?',
+                Padding(padding: const EdgeInsets.all(20)),
+                Padding(
+                  padding: const EdgeInsets.all(1),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      ' Login',
                       style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 13,
-                      )),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                  
-                ],
-              )
-            ),
-            Padding(padding: const EdgeInsets.all(12)),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: raisedButtonStyle,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(
-                        eid: eidc.text,
-                        pass: epass.text,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: eidc,
+                    decoration: InputDecoration(
+                      labelText: 'Employee ID',
+                      suffixIcon: CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 250, 250, 250),
+                        child: CircleAvatar(
+                          backgroundColor: Color(0xffE6E6E6),
+                          radius: 2,
+                          child: Icon(
+                            Icons.person,
+                            color: Color(0xffCCCCCC),
+                          ),
+                        ),
                       ),
                     ),
-                  );
-                },
-                child: Text('Login',
-                style: TextStyle(
-                color:Colors.white,
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    obscureText: true,
+                    controller: epass,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 250, 250, 250),
+                        child: CircleAvatar(
+                          backgroundColor: Color(0xffE6E6E6),
+                          radius: 2,
+                          child: Icon(
+                            Icons.lock,
+                            color: Color(0xffCCCCCC),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: (() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Forgot(),
+                                ),
+                              );
+                            }),
+                            child: Text('  Forgot password?',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 13,
+                                )),
+                          ),
+                        ),
+                      ],
+                    )),
+                Padding(padding: const EdgeInsets.all(12)),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: raisedButtonStyle,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(
+                            eid: eidc.text,
+                            pass: epass.text,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            ),
-          ],
-        ),
-      )),
+          )),
     );
   }
 }
