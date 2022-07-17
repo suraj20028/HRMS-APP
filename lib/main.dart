@@ -3,10 +3,13 @@ import 'package:hrms/login.dart';
 import 'package:hrms/pallete.dart';
 import 'package:hrms/profile.dart';
 import 'package:hrms/employee.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'Home.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(Home());
 }
 
@@ -18,6 +21,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 2));
+    FlutterNativeSplash.remove();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,7 +60,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           appBarTheme: AppBarTheme(
-              backgroundColor: Color(0xFF1A436A),
+              backgroundColor: Color.fromARGB(255, 242, 124, 34),
               iconTheme: IconThemeData(color: Colors.white),
               titleTextStyle: TextStyle(
                 color: Colors.white,
