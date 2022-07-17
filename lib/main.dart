@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           appBarTheme: AppBarTheme(
-              backgroundColor: Color.fromARGB(255, 242, 124, 34),
+              backgroundColor: Color.fromARGB(255, 26, 67, 106),
               iconTheme: IconThemeData(color: Colors.white),
               titleTextStyle: TextStyle(
                 color: Colors.white,
