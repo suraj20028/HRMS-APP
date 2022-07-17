@@ -1,8 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hrms/Home.dart';
+import 'package:hrms/apiCall.dart';
+import 'package:hrms/contacts.dart';
+import 'package:hrms/employee.dart';
+import 'package:hrms/leave.dart';
 import 'package:hrms/main.dart';
+import 'package:hrms/payslip.dart';
+import 'package:hrms/profile.dart';
 import 'package:intl/intl.dart';
 import 'login.dart';
 import 'tile.dart';
@@ -15,18 +24,21 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+  var storage = FlutterSecureStorage();
+
   bool check = false;
   var time_in = '';
   var time_out = '';
   var txt = 'CHECKIN';
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     onPrimary: Colors.black87,
-    primary: Color.fromARGB(255, 242, 124, 34),
+    primary: Color.fromARGB(255, 26, 67, 106),
     padding: EdgeInsets.all(25),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(2)),
     ),
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +54,12 @@ class _dashboardState extends State<dashboard> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, true);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EmployeeLogin(),
+                    ));
               },
               icon: Icon(Icons.power_settings_new)),
         ],
@@ -52,8 +69,7 @@ class _dashboardState extends State<dashboard> {
           children: [
             Container(
               padding: EdgeInsets.all(15),
-              decoration:
-                  BoxDecoration(color: Color.fromARGB(255, 242, 124, 34)),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
               child: Row(
                 children: [
                   ClipRRect(
@@ -68,20 +84,38 @@ class _dashboardState extends State<dashboard> {
                   SizedBox(
                     width: 20,
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'XXX',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text('trainee'),
-                      Text('xzz@gmail.com'),
-                    ],
+                  FutureBuilder(
+                    future: storage.read(key: 'employee'),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        print(jsonDecode(snapshot.data.toString()));
+                        var dets = Employee.fromJson(
+                            jsonDecode(snapshot.data.toString()));
+
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              dets.name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              dets.jobTitle,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(dets.workEmail,
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
                   ),
                 ],
               ),
@@ -119,7 +153,7 @@ class _dashboardState extends State<dashboard> {
                             txt = 'CHECKOUT';
                           });
                         },
-                  child: Text(txt),
+                  child: Text(txt, style: TextStyle(color: Colors.white)),
                 ),
                 Expanded(
                   child: Column(
@@ -140,14 +174,18 @@ class _dashboardState extends State<dashboard> {
             SizedBox(height: 10),
             Row(
               children: [
-                makeDashboardItem("PROFILE", Icons.face_outlined),
-                makeDashboardItem("PAYSLIPS", Icons.payment_outlined),
+                makeDashboardItem(
+                    "PROFILE", Icons.face_outlined, Profile(), context),
+                makeDashboardItem(
+                    "PAYSLIPS", Icons.payment_outlined, payslip(), context),
               ],
             ),
             Row(
               children: [
-                makeDashboardItem("APPLY LEAVE", Icons.calendar_month),
-                makeDashboardItem("CONTACT", Icons.call_end),
+                makeDashboardItem(
+                    "APPLY LEAVE", Icons.calendar_month, Leave(), context),
+                makeDashboardItem(
+                    "CONTACT", Icons.call_end, Contact(), context),
               ],
             ),
           ],
@@ -157,27 +195,35 @@ class _dashboardState extends State<dashboard> {
   }
 }
 
-Widget makeDashboardItem(String name, IconData icon) {
+Widget makeDashboardItem(
+    String name, IconData icon, Widget wid, BuildContext context) {
   return Expanded(
-    child: Card(
-      child: SizedBox(
-        height: 100,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Center(
-                child: Icon(
-              icon,
-              size: 40.0,
-              color: Colors.black,
-            )),
-            SizedBox(height: 20.0),
-            Center(
-              child: Text(name,
-                  style: TextStyle(fontSize: 18.0, color: Colors.black)),
-            )
-          ],
+    child: InkWell(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => wid,
+          )),
+      child: Card(
+        child: SizedBox(
+          height: 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Center(
+                  child: Icon(
+                icon,
+                size: 40.0,
+                color: Colors.black,
+              )),
+              SizedBox(height: 20.0),
+              Center(
+                child: Text(name,
+                    style: TextStyle(fontSize: 18.0, color: Colors.black)),
+              )
+            ],
+          ),
         ),
       ),
     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/login.dart';
+import 'package:hrms/pallete.dart';
 import 'package:hrms/profile.dart';
 import 'package:hrms/employee.dart';
 
@@ -20,11 +21,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Employee(),
+      home: EmployeeLogin(),
       theme: ThemeData(
           iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
           backgroundColor: Color.fromARGB(255, 236, 236, 236),
-          primarySwatch: Colors.orange,
+          primarySwatch: Palette.kToDark,
           brightness: Brightness.light,
           textTheme: TextTheme(
             bodyText2: TextStyle(
@@ -45,26 +46,21 @@ class _HomeState extends State<Home> {
             ),
           ),
           appBarTheme: AppBarTheme(
-              backgroundColor: Color.fromARGB(255,242 ,124, 34),
+              backgroundColor: Color(0xFF1A436A),
               iconTheme: IconThemeData(color: Colors.white),
               titleTextStyle: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Roboto Condensed',
                 fontSize: 25,
                 fontWeight: FontWeight.w800,
-              ))
-            ,
-            buttonTheme: ButtonThemeData(
-                  
-              buttonColor: Color.fromARGB(255, 242, 124, 34),
-               
-              padding: EdgeInsets.all(25),
-              shape: const RoundedRectangleBorder(
+              )),
+          buttonTheme: ButtonThemeData(
+            buttonColor: Color.fromARGB(255, 26, 67, 106),
+            padding: EdgeInsets.all(25),
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(2)),
-    ),
-            )  
-              ),
-          
+            ),
+          )),
       debugShowCheckedModeBanner: false,
     );
   }
