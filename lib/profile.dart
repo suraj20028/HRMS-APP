@@ -45,10 +45,9 @@ class Profile extends StatelessWidget {
                   'Rahul Raj',
                   style: TextStyle(
                     fontFamily: 'SourceSansPro',
-                    fontWeight:FontWeight.bold ,
+                    fontWeight: FontWeight.bold,
                     fontSize: 25,
                   ),
-          
                 ),
                 Text(
                   '007',
@@ -64,68 +63,88 @@ class Profile extends StatelessWidget {
                     fontSize: 25,
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(5),),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
                 Divider(
                   thickness: 2,
                   indent: 10,
                   endIndent: 10,
                 ),
-                Padding(padding: EdgeInsets.all(5),),
-                ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.face_outlined,)),
-                    title: Text('personal'),
-                    trailing: Icon(Icons.navigate_next),
-                    onTap: (() {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Personal(),),);
-                      }),
+                Padding(
+                  padding: EdgeInsets.all(5),
                 ),
                 ListTile(
-                    leading: Container(
+                  leading: Container(
                       padding: EdgeInsets.all(10),
-                      decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.work,)),
-                    title: Text('Work details'),
-                    trailing: Icon(Icons.navigate_next),
-                    onTap: (() {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Work(),),);
-                      }),
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Icon(
+                        Icons.face_outlined,
+                      )),
+                  title: Text('personal'),
+                  trailing: Icon(Icons.navigate_next),
+                  onTap: (() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Personal(),
+                      ),
+                    );
+                  }),
                 ),
                 ListTile(
-                    leading: Container(
+                  leading: Container(
                       padding: EdgeInsets.all(10),
-                      decoration : BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(8)),
-                      child: Icon(Icons.headphones,)),
-                    title: Text('Contact details'),
-                    trailing: Icon(Icons.navigate_next),
-                    onTap: (() {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Contact(),),);
-                      }),
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Icon(
+                        Icons.work,
+                      )),
+                  title: Text('Work details'),
+                  trailing: Icon(Icons.navigate_next),
+                  onTap: (() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Work(),
+                      ),
+                    );
+                  }),
                 ),
-                
-                Padding(padding: EdgeInsets.all(5),),
+                ListTile(
+                  leading: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Icon(
+                        Icons.headphones,
+                      )),
+                  title: Text('Contact details'),
+                  trailing: Icon(Icons.navigate_next),
+                  onTap: (() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Contact(),
+                      ),
+                    );
+                  }),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
                 Divider(
                   thickness: 2,
                   indent: 10,
                   endIndent: 10,
                 ),
-                Padding(padding: EdgeInsets.all(5),),
-              
-              ElevatedButton(onPressed: ()=>{}, 
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red,
-              ),
-              
-              child: Center(
-                child: Text('sign out',
-                style: TextStyle(fontSize: 18),),
-                
-  
-              ),
-              )  
-               
+                Padding(
+                  padding: EdgeInsets.all(5),
+                ),
               ],
             ),
           ),

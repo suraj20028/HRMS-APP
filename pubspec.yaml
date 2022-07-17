@@ -50,10 +50,14 @@ dev_dependencies:
 
 flutter_native_splash:
  
-  color: "#1A436A"
+  color: "#00446d"
   image: assets/splash.png
   android_gravity: center
   fullscreen: true
+  android_12:
+    color: "#00446d"
+    image: assets/splash.png
+    android_gravity: center
 # The following section is specific to Flutter.
 flutter:
   assets:

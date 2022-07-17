@@ -74,7 +74,8 @@ class _EmployeeLoginState extends State<EmployeeLogin> {
       } else {
         var jsonvals = jsonDecode(response.body)['result']['employees_list'][0];
         emp = Employee.fromJson(jsonvals);
-
+        await storage.write(key: 'username', value: eidc.text);
+        await storage.write(key: 'password', value: epass.text);
         await storage.write(key: 'employee', value: jsonEncode(jsonvals));
         //print(await storage.read(key: 'employee'));
         return emp;
