@@ -148,9 +148,11 @@ class _dashboardState extends State<dashboard> {
                               time_out = DateFormat("hh:mm:ss a")
                                   .format(DateTime.now());
                             }
-                            time_in =
-                                DateFormat("hh:mm:ss a").format(DateTime.now());
-                            txt = 'CHECKOUT';
+                            if (txt == 'CHECKIN') {
+                              time_in = DateFormat("hh:mm:ss a")
+                                  .format(DateTime.now());
+                              txt = 'CHECKOUT';
+                            }
                           });
                         },
                   child: Text(txt, style: TextStyle(color: Colors.white)),

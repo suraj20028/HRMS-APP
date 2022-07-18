@@ -67,7 +67,7 @@ class _ResetState extends State<Reset> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginPage(),
+                  builder: (context) => EmployeeLogin(),
                 ),
               );
             },
