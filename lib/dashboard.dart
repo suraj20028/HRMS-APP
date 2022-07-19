@@ -51,7 +51,7 @@ class _dashboardState extends State<dashboard> {
       Placemark place = placemarks[0];
 
       setState(() {
-        _cad = "${place.locality}";
+        _cad = "${place.subLocality}";
       });
     } catch (e) {
       print(e);
@@ -186,15 +186,20 @@ class _dashboardState extends State<dashboard> {
                 ],
               ),
             ),
-            SizedBox(
+            Divider(
+              indent: 20,
+              endIndent: 20,
               height: 10,
+              thickness: 2,
             ),
             Padding(
               padding: EdgeInsets.all(20),
-              child: Row(children: [
-                Text(DateFormat.yMMMd().format(DateTime.now())),
-                Text(_cad),
-              ]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(DateFormat.yMMMd().format(DateTime.now())),
+                    Text(_cad),
+                  ]),
             ),
             SizedBox(
               height: 20,
