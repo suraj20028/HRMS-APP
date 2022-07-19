@@ -49,8 +49,9 @@ class _dashboardState extends State<dashboard> {
         title: Text(
           'Dashboard',
         ),
-        centerTitle: false,
+        centerTitle: true,
         elevation: 2,
+        leading: Image(image: AssetImage('assets/bg_rem.png')),
         actions: [
           IconButton(
               onPressed: () {
@@ -102,8 +103,9 @@ class _dashboardState extends State<dashboard> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
-                            SizedBox(
-                              height: 15,
+                            Text(
+                              dets.id.toString(),
+                              style: TextStyle(color: Colors.white),
                             ),
                             Text(
                               dets.jobTitle,
@@ -123,6 +125,15 @@ class _dashboardState extends State<dashboard> {
             SizedBox(
               height: 10,
             ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(children: [
+                Text(DateFormat.yMMMd().format(DateTime.now())),
+              ]),
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               children: [
                 Expanded(
@@ -139,22 +150,21 @@ class _dashboardState extends State<dashboard> {
                 ),
                 ElevatedButton(
                   style: raisedButtonStyle,
-                  onPressed: check
-                      ? null
-                      : () {
-                          setState(() {
-                            if (txt == 'CHECKOUT') {
-                              check = true;
-                              time_out = DateFormat("hh:mm:ss a")
-                                  .format(DateTime.now());
-                            }
-                            if (txt == 'CHECKIN') {
-                              time_in = DateFormat("hh:mm:ss a")
-                                  .format(DateTime.now());
-                              txt = 'CHECKOUT';
-                            }
-                          });
-                        },
+                  onPressed: () {
+                    setState(
+                      () {
+                        if (txt == 'CHECKOUT') {
+                          time_out =
+                              DateFormat("hh:mm:ss a").format(DateTime.now());
+                          txt = 'CHECKIN';
+                        } else if (txt == 'CHECKIN') {
+                          time_in =
+                              DateFormat("hh:mm:ss a").format(DateTime.now());
+                          txt = 'CHECKOUT';
+                        }
+                      },
+                    );
+                  },
                   child: Text(txt, style: TextStyle(color: Colors.white)),
                 ),
                 Expanded(
@@ -172,6 +182,13 @@ class _dashboardState extends State<dashboard> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(height: 10),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+              height: 10,
+              thickness: 2,
             ),
             SizedBox(height: 10),
             Row(
