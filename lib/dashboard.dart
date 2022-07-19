@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hrms/Home.dart';
 import 'package:hrms/apiCall.dart';
 import 'package:hrms/contacts.dart';
@@ -25,6 +27,9 @@ class dashboard extends StatefulWidget {
 
 class _dashboardState extends State<dashboard> {
   var storage = FlutterSecureStorage();
+  var lat = 0.0;
+  var lon = 0.0;
+  var _cad = '';
 
   bool check = false;
   var time_in = '';
@@ -38,6 +43,65 @@ class _dashboardState extends State<dashboard> {
       borderRadius: BorderRadius.all(Radius.circular(2)),
     ),
   );
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
+      print(placemarks);
+      Placemark place = placemarks[0];
+
+      setState(() {
+        _cad = "${place.locality}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      print('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        print('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      print(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+
+    Geolocator.getCurrentPosition().then((value) {
+      setState(() {
+        lat = value.latitude;
+        lon = value.longitude;
+      });
+      _getAddressFromLatLng();
+    });
+    print(await Geolocator.getCurrentPosition());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +193,7 @@ class _dashboardState extends State<dashboard> {
               padding: EdgeInsets.all(20),
               child: Row(children: [
                 Text(DateFormat.yMMMd().format(DateTime.now())),
+                Text(_cad),
               ]),
             ),
             SizedBox(
@@ -153,6 +218,7 @@ class _dashboardState extends State<dashboard> {
                   onPressed: () {
                     setState(
                       () {
+                        _determinePosition();
                         if (txt == 'CHECKOUT') {
                           time_out =
                               DateFormat("hh:mm:ss a").format(DateTime.now());
@@ -207,6 +273,9 @@ class _dashboardState extends State<dashboard> {
                     "CONTACT", Icons.call_end, Contact(), context),
               ],
             ),
+            Text(lat.toString()),
+            Text(lon.toString()),
+            Text(_cad),
           ],
         ),
       ),
