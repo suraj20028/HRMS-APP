@@ -8,9 +8,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hrms/Home.dart';
 import 'package:hrms/apiCall.dart';
+import 'package:hrms/applyleave.dart';
 import 'package:hrms/contacts.dart';
 import 'package:hrms/employee.dart';
-import 'package:hrms/leave.dart';
 import 'package:hrms/main.dart';
 import 'package:hrms/payslip.dart';
 import 'package:hrms/profile.dart';
@@ -295,7 +295,7 @@ class _dashboardState extends State<dashboard> {
             Row(
               children: [
                 makeDashboardItem(
-                    "APPLY LEAVE", Icons.calendar_month, Leave(), context),
+                    "APPLY LEAVE", Icons.calendar_month, ApplyLeave(), context),
                 makeDashboardItem(
                     "CONTACT", Icons.call_end, Contact(), context),
               ],
