@@ -30,6 +30,14 @@ class _dashboardState extends State<dashboard> {
   var lat = 0.0;
   var lon = 0.0;
   var _cad = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _determinePosition();
+    });
+  }
 
   bool check = false;
   var time_in = '';
@@ -51,7 +59,7 @@ class _dashboardState extends State<dashboard> {
       Placemark place = placemarks[0];
 
       setState(() {
-        _cad = "${place.subLocality}";
+        _cad = "${place.subLocality},${place.thoroughfare}";
       });
     } catch (e) {
       print(e);
@@ -186,23 +194,38 @@ class _dashboardState extends State<dashboard> {
                 ],
               ),
             ),
-            Divider(
-              indent: 20,
-              endIndent: 20,
-              height: 10,
-              thickness: 2,
-            ),
             Padding(
               padding: EdgeInsets.all(20),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(DateFormat.yMMMd().format(DateTime.now())),
-                    Text(_cad),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            _cad,
+                            style: TextStyle(overflow: TextOverflow.visible),
+                          ),
+                        ),
+                      ],
+                    ),
                   ]),
             ),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+              height: 10,
+              thickness: 2,
+            ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [
@@ -223,7 +246,6 @@ class _dashboardState extends State<dashboard> {
                   onPressed: () {
                     setState(
                       () {
-                        _determinePosition();
                         if (txt == 'CHECKOUT') {
                           time_out =
                               DateFormat("hh:mm:ss a").format(DateTime.now());
