@@ -44,6 +44,8 @@ dependencies:
   geolocator: ^7.0.1
   geocoding: ^2.0.4
   file_picker: ^4.6.1
+  path:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,12 +12,16 @@ import 'package:hrms/apiCall.dart';
 import 'package:hrms/applyleave.dart';
 import 'package:hrms/contacts.dart';
 import 'package:hrms/employee.dart';
+import 'package:hrms/employeeLogin.dart';
 import 'package:hrms/main.dart';
 import 'package:hrms/payslip.dart';
 import 'package:hrms/profile.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 import 'login.dart';
 import 'tile.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class dashboard extends StatefulWidget {
   const dashboard({Key? key}) : super(key: key);
@@ -26,6 +31,7 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+  late var img;
   var storage = FlutterSecureStorage();
   var lat = 0.0;
   var lon = 0.0;
@@ -37,6 +43,47 @@ class _dashboardState extends State<dashboard> {
     setState(() {
       _determinePosition();
     });
+  }
+
+  Future<File> writeImageTemp(String base64Image, String imageName) async {
+    final dir = await getTemporaryDirectory();
+    await dir.create(recursive: true);
+    final tempFile = File(path.join(dir.path, imageName));
+    await tempFile.writeAsBytes(base64.decode(base64Image));
+    return tempFile;
+  }
+
+  timer() {
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => dashboard()));
+    });
+  }
+
+  Future<Map<String, dynamic>> fetchAlbum() async {
+    bool trylog = false;
+    var session = await storage.read(key: 'cookie');
+    print(session);
+    final response = await http.get(
+        Uri.parse(
+            'https://hrmsprime.com/my_services_api/partner/get_dashboard_details'),
+        headers: {"Cookie": session.toString()});
+    print(response.body);
+    if (response.statusCode == 200) {
+      bool flag = false;
+
+      //print(jsonDecode(response.body));
+
+      var det = jsonDecode(response.body)['employees_list'][0];
+      //print(await storage.read(key: 'cookie'));
+      //print(await storage.read(key: 'employee'));
+      // img = writeImageTemp(
+      //     jsonDecode(response.body)['employees_list'][0]['employee_photo'],
+      //     'eimg');
+      return det;
+    }
+
+    return Map();
   }
 
   bool check = false;
@@ -55,7 +102,7 @@ class _dashboardState extends State<dashboard> {
   _getAddressFromLatLng() async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
-      print(placemarks);
+      //print(placemarks);
       Placemark place = placemarks[0];
 
       setState(() {
@@ -108,7 +155,7 @@ class _dashboardState extends State<dashboard> {
       });
       _getAddressFromLatLng();
     });
-    print(await Geolocator.getCurrentPosition());
+    //print(await Geolocator.getCurrentPosition());
   }
 
   @override
@@ -127,11 +174,12 @@ class _dashboardState extends State<dashboard> {
         actions: [
           IconButton(
               onPressed: () {
+                storage.deleteAll();
                 Navigator.pop(context, true);
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EmployeeLogin(),
+                      builder: (context) => login(),
                     ));
               },
               icon: Icon(Icons.power_settings_new)),
@@ -157,33 +205,30 @@ class _dashboardState extends State<dashboard> {
                   SizedBox(
                     width: 20,
                   ),
-                  FutureBuilder(
-                    future: storage.read(key: 'employee'),
+                  FutureBuilder<Map<String, dynamic>>(
+                    future: fetchAlbum(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        print(jsonDecode(snapshot.data.toString()));
-                        var dets = Employee.fromJson(
-                            jsonDecode(snapshot.data.toString()));
-
+                        //print(jsonDecode(snapshot.data.toString()));
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              dets.name,
+                              snapshot.data!['id'].toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
                             Text(
-                              dets.id.toString(),
+                              snapshot.data!['name'],
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              dets.jobTitle,
+                              snapshot.data!['job_title '],
                               style: TextStyle(color: Colors.white),
                             ),
-                            Text(dets.workEmail,
+                            Text(snapshot.data!['work_email'],
                                 style: TextStyle(color: Colors.white)),
                           ],
                         );

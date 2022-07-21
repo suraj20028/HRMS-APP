@@ -1,11 +1,16 @@
+import 'dart:convert';
+import 'package:hrms/dashboard.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:hrms/applyleave.dart';
+import 'package:hrms/employeeLogin.dart';
 import 'package:hrms/login.dart';
 import 'package:hrms/pallete.dart';
 import 'package:hrms/profile.dart';
 import 'package:hrms/employee.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:toast/toast.dart';
 import 'Home.dart';
 
 void main() {
@@ -22,6 +27,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final storage = FlutterSecureStorage();
+  Widget next = login();
   @override
   void initState() {
     super.initState();
@@ -33,10 +40,45 @@ class _HomeState extends State<Home> {
     FlutterNativeSplash.remove();
   }
 
+  Future<int> fetchAlbum() async {
+    var session = await storage.read(key: 'cookie');
+
+    final response = await http.get(
+        Uri.parse(
+            'https://hrmsprime.com/my_services_api/partner/get_dashboard_details'),
+        headers: {"Cookie": session.toString()});
+
+    if (response.statusCode == 200) {
+      //print(jsonDecode(response.body));
+      if (jsonDecode(response.body)['code'] == '401') {
+        return 0;
+      } else {
+        //print(await storage.read(key: 'cookie'));
+        //print(await storage.read(key: 'employee'));
+        return 1;
+      }
+    }
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: EmployeeLogin(),
+      home: FutureBuilder<int>(
+        future: fetchAlbum(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == 1) {
+              return dashboard();
+            } else {
+              return login();
+            }
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
       theme: ThemeData(
           iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
           backgroundColor: Color.fromARGB(255, 236, 236, 236),
