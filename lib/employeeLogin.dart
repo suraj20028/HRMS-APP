@@ -24,6 +24,7 @@ class _loginState extends State<login> {
   bool trylog = false;
   timer() {
     Future.delayed(Duration(seconds: 1), () {
+      Navigator.pop(context, true);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => dashboard()));
     });
@@ -38,7 +39,7 @@ class _loginState extends State<login> {
       borderRadius: BorderRadius.all(Radius.circular(2)),
     ),
   );
-  Future<int> fetchAlbum() async {
+  Future<int> fetchAlbum(BuildContext context) async {
     var check = '';
     Map<String, dynamic> jsonMap = {
       "login": eidc.text,
@@ -60,15 +61,17 @@ class _loginState extends State<login> {
             (index == -1) ? rawCookie : rawCookie.substring(0, index);
       }
       await storage.write(key: 'cookie', value: headers['cookie']);
-      print(headers['cookie']);
       //print(await storage.read(key: 'employee'));
-      Toast.show("LOGIN SUCCESSFULL");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('LOGIN SUCCESFULL'),
+      ));
       return 1;
     } else if (response.statusCode == 403) {
       setState(() {
         trylog = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('INVALID CREDENTIALS')));
       });
-      Toast.show('INVALID CREDENTIALS');
     }
     return 0;
   }
@@ -222,7 +225,7 @@ class _loginState extends State<login> {
                       // By default, show a loading spinner.
                       return CircularProgressIndicator();
                     },
-                    future: fetchAlbum(),
+                    future: fetchAlbum(context),
                   )
               ],
             ),
