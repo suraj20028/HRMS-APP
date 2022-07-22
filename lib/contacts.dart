@@ -1,10 +1,20 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Contact extends StatelessWidget {
-  const Contact({Key? key}) : super(key: key);
-
+  Contact({Key? key}) : super(key: key);
+  int i = 0;
+  final storage = FlutterSecureStorage();
+  List<String> head = <String>[
+    "work_mobile",
+    "work_email",
+    "work_phone",
+  ];
+  List<String> detail = <String>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,64 +37,40 @@ class Contact extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                Row(
+      body: FutureBuilder(
+        future: storage.read(key: 'employee'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            Map det = jsonDecode(snapshot.data.toString());
+            head.forEach((key) {
+              detail.add(det[key].toString());
+            });
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: head.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Work Mobile : '),
-                    Expanded(
-                        child: Text(
-                      '4526398566',
-                      textAlign: TextAlign.end,
-                    ))
+                    Text(
+                      '${head[index]}:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(detail[index]),
+                    Divider(
+                      endIndent: 10,
+                      indent: 10,
+                      thickness: 2,
+                    )
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Work email : '),
-                    Expanded(
-                        child: Text(
-                      'xyz@gmail.com',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Work Phone : '),
-                    Expanded(
-                        child: Text(
-                      '4563214598',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-                
-              ],
-            ),
-          ),
-        ),
+                );
+              },
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
 }
+

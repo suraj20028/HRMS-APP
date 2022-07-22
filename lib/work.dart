@@ -1,10 +1,24 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Work extends StatelessWidget {
-  const Work({Key? key}) : super(key: key);
-
+  Work({Key? key}) : super(key: key);
+  int i = 0;
+  final storage = FlutterSecureStorage();
+  List<String> head = <String>[
+    "job_title ",
+    "department_name",
+    "manager_name",
+    "work_location",
+    "joining_date",
+    "identification_num",
+    "salary_info"
+  ];
+  List<String> detail = <String>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,111 +41,40 @@ class Work extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                Row(
+      body: FutureBuilder(
+        future: storage.read(key: 'employee'),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            Map det = jsonDecode(snapshot.data.toString());
+            head.forEach((key) {
+              detail.add(det[key].toString());
+            });
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: head.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Department : '),
-                    Expanded(
-                        child: Text(
-                      'Accounting',
-                      textAlign: TextAlign.end,
-                    ))
+                    Text(
+                      '${head[index]}:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(detail[index]),
+                    Divider(
+                      endIndent: 10,
+                      indent: 10,
+                      thickness: 2,
+                    )
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Manager : '),
-                    Expanded(
-                        child: Text(
-                      'Sudhesh',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Work Address : '),
-                    Expanded(
-                        child: Text(
-                      'hrms office,Malleshwaram',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Work Location : '),
-                    Expanded(
-                        child: Text(
-                      'office',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Date of joining : '),
-                    Expanded(
-                        child: Text(
-                      '01-06-2010',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(
-                    thickness: 2,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text('Salary Info : '),
-                    Expanded(
-                        child: Text(
-                      '40000/month',
-                      textAlign: TextAlign.end,
-                    ))
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+                );
+              },
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
 }
+
