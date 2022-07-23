@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter/src/foundation/key.dart';
-//import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:hrms/reset.dart';
 
@@ -57,12 +55,12 @@ class _otpState extends State<otp> {
               //runs when every textfield is filled
               onSubmit: (String verificationCode) {
                 {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Reset(),
-                ),
-              );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Reset(),
+                    ),
+                  );
                 }
               }, // end onSubmit
             ),

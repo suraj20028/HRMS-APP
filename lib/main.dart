@@ -2,16 +2,10 @@ import 'dart:convert';
 import 'package:hrms/dashboard.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:hrms/applyleave.dart';
 import 'package:hrms/employeeLogin.dart';
-import 'package:hrms/login.dart';
 import 'package:hrms/pallete.dart';
-import 'package:hrms/profile.dart';
-import 'package:hrms/employee.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:toast/toast.dart';
-import 'Home.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

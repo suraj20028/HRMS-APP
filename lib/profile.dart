@@ -1,8 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hrms/contacts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hrms/personal.dart';
@@ -11,8 +10,10 @@ import 'package:hrms/work.dart';
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
   final storage = FlutterSecureStorage();
-
+  late Uint8List bytes;
   Future<Map<String, dynamic>> fetchAlbum() async {
+    var image = await storage.read(key: 'pic');
+    bytes = Base64Codec().decode(image!);
     bool trylog = false;
     var session = await storage.read(key: 'cookie');
     print(session);
@@ -72,10 +73,14 @@ class Profile extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundImage: AssetImage('assets/pic.png'),
-                      ),
+                      ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(50), //add border radius
+                          child: Image.memory(
+                            bytes,
+                            width: 100,
+                            height: 100,
+                          )),
                       Text(
                         snapshot.data!['name'],
                         style: TextStyle(

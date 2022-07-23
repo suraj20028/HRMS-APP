@@ -1,9 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:hrms/apiCall.dart';
-import 'package:hrms/employee.dart';
-import 'package:hrms/login.dart';
+import 'package:hrms/employeeLogin.dart';
 
 class Reset extends StatefulWidget {
   const Reset({Key? key}) : super(key: key);
@@ -67,7 +63,7 @@ class _ResetState extends State<Reset> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EmployeeLogin(),
+                  builder: (context) => login(),
                 ),
               );
             },

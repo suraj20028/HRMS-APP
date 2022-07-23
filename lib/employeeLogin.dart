@@ -1,10 +1,6 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:toast/toast.dart';
-import 'apiCall.dart';
 import 'dashboard.dart';
 import 'forgot.dart';
 import 'package:http/http.dart' as http;
@@ -78,7 +74,6 @@ class _loginState extends State<login> {
 
   @override
   Widget build(BuildContext context) {
-    ToastContext().init(context);
     return Scaffold(
       appBar: AppBar(
         titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle,

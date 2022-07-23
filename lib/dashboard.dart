@@ -1,27 +1,16 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hrms/Home.dart';
-import 'package:hrms/apiCall.dart';
 import 'package:hrms/applyleave.dart';
 import 'package:hrms/contacts.dart';
-import 'package:hrms/employee.dart';
 import 'package:hrms/employeeLogin.dart';
-import 'package:hrms/main.dart';
 import 'package:hrms/payslip.dart';
 import 'package:hrms/profile.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
-import 'login.dart';
-import 'tile.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
 
 class dashboard extends StatefulWidget {
   const dashboard({Key? key}) : super(key: key);
@@ -31,7 +20,9 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
-  late var img;
+  late String base64 = "";
+  late Uint8List bytes;
+  late String image = "";
   var storage = FlutterSecureStorage();
   var lat = 0.0;
   var lon = 0.0;
@@ -45,14 +36,6 @@ class _dashboardState extends State<dashboard> {
     });
   }
 
-  Future<File> writeImageTemp(String base64Image, String imageName) async {
-    final dir = await getTemporaryDirectory();
-    await dir.create(recursive: true);
-    final tempFile = File(path.join(dir.path, imageName));
-    await tempFile.writeAsBytes(base64.decode(base64Image));
-    return tempFile;
-  }
-
   timer() {
     Future.delayed(Duration(seconds: 1), () {
       Navigator.push(
@@ -63,23 +46,20 @@ class _dashboardState extends State<dashboard> {
   Future<Map<String, dynamic>> fetchAlbum() async {
     bool trylog = false;
     var session = await storage.read(key: 'cookie');
-    print(session);
+    //print(session);
     final response = await http.get(
         Uri.parse(
             'https://hrmsprime.com/my_services_api/partner/get_dashboard_details'),
         headers: {"Cookie": session.toString()});
-    print(response.body);
+    //print(response.body);
     if (response.statusCode == 200) {
       bool flag = false;
-
-      //print(jsonDecode(response.body));
-
       var det = jsonDecode(response.body)['employees_list'][0];
-      //print(await storage.read(key: 'cookie'));
-      //print(await storage.read(key: 'employee'));
-      // img = writeImageTemp(
-      //     jsonDecode(response.body)['employees_list'][0]['employee_photo'],
-      //     'eimg');
+      base64 = jsonDecode(response.body)['employees_list'][0]['employee_photo']
+          .toString();
+      image = base64.substring(2, base64.length - 1);
+      bytes = Base64Codec().decode(image);
+      storage.write(key: 'pic', value: image);
       return det;
     }
 
@@ -191,26 +171,25 @@ class _dashboardState extends State<dashboard> {
             Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(10), //add border radius here
-                    child: Image(
-                      image: AssetImage('assets/pic.png'),
-                      height: 100.0,
-                      width: 100.0,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  FutureBuilder<Map<String, dynamic>>(
-                    future: fetchAlbum(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        //print(jsonDecode(snapshot.data.toString()));
-                        return Column(
+              child: FutureBuilder<Map<String, dynamic>>(
+                future: fetchAlbum(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    //print(jsonDecode(snapshot.data.toString()));
+                    return Row(
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                10), //add border radius here
+                            child: Image.memory(
+                              bytes,
+                              height: 100,
+                              width: 100,
+                            )),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -231,12 +210,12 @@ class _dashboardState extends State<dashboard> {
                             Text(snapshot.data!['work_email'],
                                 style: TextStyle(color: Colors.white)),
                           ],
-                        );
-                      }
-                      return CircularProgressIndicator();
-                    },
-                  ),
-                ],
+                        ),
+                      ],
+                    );
+                  }
+                  return CircularProgressIndicator();
+                },
               ),
             ),
             Padding(
@@ -331,8 +310,7 @@ class _dashboardState extends State<dashboard> {
             SizedBox(height: 10),
             Row(
               children: [
-                makeDashboardItem(
-                    "PROFILE", Icons.face_outlined, Profile(), context),
+                makeDashboardItem("PROFILE", Icons.person, Profile(), context),
                 makeDashboardItem(
                     "PAYSLIPS", Icons.payment_outlined, payslip(), context),
               ],
@@ -345,9 +323,6 @@ class _dashboardState extends State<dashboard> {
                     "CONTACT", Icons.call_end, Contact(), context),
               ],
             ),
-            Text(lat.toString()),
-            Text(lon.toString()),
-            Text(_cad),
           ],
         ),
       ),
