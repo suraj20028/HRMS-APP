@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:hrms/call.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hrms/applyleave.dart';
-import 'package:hrms/contacts.dart';
 import 'package:hrms/employeeLogin.dart';
 import 'package:hrms/payslip.dart';
 import 'package:hrms/profile.dart';
 import 'package:intl/intl.dart';
+
 
 class dashboard extends StatefulWidget {
   const dashboard({Key? key}) : super(key: key);
@@ -320,7 +321,7 @@ class _dashboardState extends State<dashboard> {
                 makeDashboardItem(
                     "APPLY LEAVE", Icons.calendar_month, ApplyLeave(), context),
                 makeDashboardItem(
-                    "CONTACT", Icons.call_end, Contact(), context),
+                    "CONTACT", Icons.call_end, Call(), context),
               ],
             ),
           ],
