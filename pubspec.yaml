@@ -42,7 +42,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   geolocator: ^7.0.1
   geocoding: ^2.0.4
-  #file_picker: 
+  file_picker:
   flutter_downloader: ^1.8.1
   dio:
   pspdfkit_flutter: ^2.0.0

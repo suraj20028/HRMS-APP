@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
-//import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ApplyLeave extends StatefulWidget {
   const ApplyLeave({Key? key}) : super(key: key);
@@ -54,11 +54,11 @@ class _ApplyLeaveState extends State<ApplyLeave> {
           ),
         ),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('No of leaves left : 69 '),
+            child: Text('No of leaves left : 6 '),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -166,19 +166,29 @@ class _ApplyLeaveState extends State<ApplyLeave> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(30.0),
+            child: TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Reason for leave',
+                  hintText: 'Reason for leave',
+                  isDense: true),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
             child: Row(
               children: [
                 Expanded(child: SizedBox()),
                 ElevatedButton(
                   onPressed: () async {
-                    // FilePickerResult? result =
-                    //     await FilePicker.platform.pickFiles();
-                    // if (result == null) {
-                    //   print("No file selected");
-                    // } else {
-                    //   print(result.files.single.name);
-                    // }
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles();
+                    if (result == null) {
+                      print("No file selected");
+                    } else {
+                      print(result.files.single.name);
+                    }
                   },
                   child: Text("Upload files"),
                 ),
